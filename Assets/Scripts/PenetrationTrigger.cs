@@ -1,48 +1,29 @@
 using UnityEngine;
 
+[RequireComponent (typeof(AlarmVolumeChanger))]
+
 public class PenetrationTrigger : MonoBehaviour
 {
-    [SerializeField] private float _duration;
+    private AlarmVolumeChanger _volumeChanger;
 
-    private AudioSource _alarmAudio;
-    private bool _isPlaying = false;
-    private float _minimumVolume;
-    private float _maximumVolume = 1.0f;
-
-    private void Start()
+    private void Awake()
     {
-        _alarmAudio = GetComponent<AudioSource>();
-    }
-
-    private void Update()
-    {
-        if (_isPlaying)
-        {
-            _alarmAudio.volume += Mathf.MoveTowards(_minimumVolume, _maximumVolume, _duration * Time.deltaTime);
-        }
-        else
-        {
-            _alarmAudio.volume += Mathf.MoveTowards(_minimumVolume, _maximumVolume, -_duration * Time.deltaTime);
-
-            if (_alarmAudio.volume <= _minimumVolume)
-                _alarmAudio.Stop();
-        }
+        _volumeChanger = GetComponent<AlarmVolumeChanger>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Thief>(out Thief thief) && _isPlaying == false)
+        if (other.TryGetComponent<Thief>(out Thief thief))
         {
-            _alarmAudio.Play();
-            _isPlaying = true;
+            _volumeChanger.TurnOnAlarm();
         }
     }
 
     private void OnTriggerExit(Collider other) 
     {
-        if (other.TryGetComponent<Thief>(out Thief thief) && _isPlaying == true)
+        if (other.TryGetComponent<Thief>(out Thief thief))
         {
-            _isPlaying = false;
+            _volumeChanger.TurnOffAlarm();
         }
     }
 }
