@@ -1,21 +1,16 @@
 using UnityEngine;
-
-[RequireComponent (typeof(AlarmVolumeChanger))]
+using UnityEngine.Events;
 
 public class PenetrationTrigger : MonoBehaviour
 {
-    private AlarmVolumeChanger _volumeChanger;
-
-    private void Awake()
-    {
-        _volumeChanger = GetComponent<AlarmVolumeChanger>();
-    }
+    [SerializeField] private UnityEvent _triggeredEnter;
+    [SerializeField] private UnityEvent _triggeredExit;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Thief>(out Thief thief))
         {
-            _volumeChanger.TurnOnAlarm();
+            _triggeredEnter.Invoke();
         }
     }
 
@@ -23,7 +18,7 @@ public class PenetrationTrigger : MonoBehaviour
     {
         if (other.TryGetComponent<Thief>(out Thief thief))
         {
-            _volumeChanger.TurnOffAlarm();
+            _triggeredExit.Invoke();
         }
     }
 }

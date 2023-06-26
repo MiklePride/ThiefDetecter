@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 
-public class AlarmVolumeChanger : MonoBehaviour
+public class Alarm : MonoBehaviour
 {
     private AudioSource _alarmAudio;
     private float _minVolume = 0f;
@@ -29,7 +29,7 @@ public class AlarmVolumeChanger : MonoBehaviour
     {
         _alarmAudio.Play();
 
-        while (_alarmAudio.volume < _maxVolume) 
+        while (_alarmAudio.volume < _maxVolume)
         {
             _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _maxVolume, _duration * Time.deltaTime);
 
@@ -39,7 +39,7 @@ public class AlarmVolumeChanger : MonoBehaviour
 
     private IEnumerator DecreaseVolumeToMin()
     {
-        while (_alarmAudio.volume > _minVolume) 
+        while (_alarmAudio.volume > _minVolume)
         {
             _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _minVolume, _duration * Time.deltaTime);
 
