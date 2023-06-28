@@ -17,33 +17,37 @@ public class Alarm : MonoBehaviour
 
     public void TurnOnAlarm()
     {
-        StartCoroutine(IncreaseVolumeToMax());
+        StartCoroutine(ChangeValue());
     }
 
     public void TurnOffAlarm()
     {
-        StartCoroutine(DecreaseVolumeToMin());
+        bool isPlaying = false;
+
+        StartCoroutine(ChangeValue(isPlaying));
     }
 
-    private IEnumerator IncreaseVolumeToMax()
+    private IEnumerator ChangeValue(bool isPlaying = true)
     {
-        _alarmAudio.Play();
-
-        while (_alarmAudio.volume < _maxVolume)
+        if (isPlaying)
         {
-            _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _maxVolume, _duration * Time.deltaTime);
+            _alarmAudio.Play();
 
-            yield return null;
+            while (_alarmAudio.volume < _maxVolume)
+            {
+                _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _maxVolume, _duration * Time.deltaTime);
+
+                yield return null;
+            }
         }
-    }
-
-    private IEnumerator DecreaseVolumeToMin()
-    {
-        while (_alarmAudio.volume > _minVolume)
+        else
         {
-            _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _minVolume, _duration * Time.deltaTime);
+            while (_alarmAudio.volume > _minVolume)
+            {
+                _alarmAudio.volume = Mathf.MoveTowards(_alarmAudio.volume, _maxVolume, -_duration * Time.deltaTime);
 
-            yield return null;
+                yield return null;
+            }
         }
     }
 }
