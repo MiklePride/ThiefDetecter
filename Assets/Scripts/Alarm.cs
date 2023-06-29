@@ -31,9 +31,7 @@ public class Alarm : MonoBehaviour
     {
         _targetVolume = 0f;
 
-        if (_changeValue != null)
-            StopCoroutine(_changeValue);
-
+        StopCoroutine(_changeValue);
         _changeValue = StartCoroutine(ChangeValue(_targetVolume));
     }
 
