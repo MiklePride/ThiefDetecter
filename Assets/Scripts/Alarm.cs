@@ -6,9 +6,9 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     private AudioSource _alarmAudio;
+    private Coroutine _changeValue;
     private float _targetVolume;
     private float _duration = 0.3f;
-    private Coroutine _changeValue;
 
     private void Awake()
     {
@@ -17,7 +17,8 @@ public class Alarm : MonoBehaviour
 
     public void TurnOnAlarm()
     {
-        _targetVolume = 1f;
+        float maxValue = 1f;
+        _targetVolume = maxValue;
 
         _alarmAudio.Play();
 
@@ -29,7 +30,8 @@ public class Alarm : MonoBehaviour
 
     public void TurnOffAlarm()
     {
-        _targetVolume = 0f;
+        float minValue = 0f;
+        _targetVolume = minValue;
 
         StopCoroutine(_changeValue);
         _changeValue = StartCoroutine(ChangeValue(_targetVolume));
